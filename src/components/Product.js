@@ -1,17 +1,25 @@
 import React from "react";
 import { Col, Card, Row, Button, Badge } from "react-bootstrap";
-import { saveLastInterestProduct } from "../app/services/storageServices";
 import "../assets/css/styles.css";
 
 export const Product = ({ item }) => {
     const { title, image, price, description, category } = item;
 
     const addProductToCart = ({ title, price, category }) => {
-        //  db.cart.add({
-        //     title: title,
-        //     price: price,
-        //     category: category
-        // })
+
+        let cartList = JSON.parse(localStorage.getItem("shoppingCartList"));
+        if(!cartList){
+            cartList = [];
+        }
+
+        cartList.push({
+            title: title,
+            price: price,
+            category: category,
+            image: image
+        })
+
+        localStorage.setItem("shoppingCartList", JSON.stringify(cartList) );
 
     }
 
@@ -42,12 +50,13 @@ export const Product = ({ item }) => {
                         <Button onClick={() => addProductToCart(item)} variant="warning">Agregar al carrito</Button>
                     </Col>
                     <Col>
-                        <Button onClick={() => saveLastInterestProduct(title)} variant="primary">
+                        <Button onClick={()=>{}} variant="primary">
                             Precio <Badge bg="secondary">${price}</Badge>
                         </Button>
                     </Col>
                 </Row>
             </Card>
         </div>
+        // () => saveLastInterestProduct(title)
     );
 };
