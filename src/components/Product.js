@@ -1,26 +1,19 @@
 import React from "react";
 import { Col, Card, Row, Button, Badge } from "react-bootstrap";
 import "../assets/css/styles.css";
+import db from "../db/db";
 
 export const Product = ({ item }) => {
     const { title, image, price, description, category } = item;
 
     const addProductToCart = ({ title, price, category }) => {
 
-        let cartList = JSON.parse(localStorage.getItem("shoppingCartList"));
-        if(!cartList){
-            cartList = [];
-        }
-
-        cartList.push({
+        db.cart.add({
             title: title,
             price: price,
             category: category,
             image: image
         })
-
-        localStorage.setItem("shoppingCartList", JSON.stringify(cartList) );
-
     }
 
     return (

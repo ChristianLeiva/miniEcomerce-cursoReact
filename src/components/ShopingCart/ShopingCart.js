@@ -1,19 +1,16 @@
 import React, {useState, useEffect} from "react";
+import { useLiveQuery } from "dexie-react-hooks";
 import { Row, Col, NavDropdown, Navbar, Nav, Container } from 'react-bootstrap';
+import db, {getAllProducts} from "../../db/db";
 import { ShoppingCartItem } from "./ShoppingCartItem";
+
 
 export const ShopingCart = () => {
 
     const [productsList, setProductsList ] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
 
-    const getProductsFromStorage = ()=>{
-        let list = JSON.parse(localStorage.getItem("shoppingCartList"));
-        if(!list)
-            list = []
 
-        setProductsList(list);
-    }
 
     const calculateTotalPrice =()=>{
         const total = productsList?.reduce((totalPrice, product)=>{
@@ -23,9 +20,11 @@ export const ShopingCart = () => {
         setTotalPrice(total)
     }
 
-    useEffect(()=>{
-        getProductsFromStorage();
-    },[])
+
+    useLiveQuery(async () => {
+        const productsDB = await db.cart.toArray()
+        setProductsList(productsDB)
+      },[])
 
     useEffect(() => {
         if(productsList.length > 0){
@@ -47,12 +46,12 @@ export const ShopingCart = () => {
 
                 {   
                     productsList.map((product, i)=>(
-                       <ShoppingCartItem product={product}/>
+                       <ShoppingCartItem key={i} product={product}/>
                     ))
                 }
                 
                 <NavDropdown.Divider />
-                <NavDropdown.Item> Total Price: ${parseFloat(totalPrice)} </NavDropdown.Item>
+                <NavDropdown.Item> Total Price: ${parseFloat(''+totalPrice.toFixed(2))} </NavDropdown.Item>
                 
 
             </NavDropdown>
