@@ -1,10 +1,11 @@
 import React from "react";
 import { Col, Card, Row, Button, Badge } from "react-bootstrap";
 import "../assets/css/styles.css";
+import {Link } from 'react-router-dom';
 import db from "../db/db";
 
 export const Product = ({ item }) => {
-    const { title, image, price, description, category } = item;
+    const {id,  title, image, price, description, category } = item;
 
     const addProductToCart = ({ title, price, category }) => {
 
@@ -41,6 +42,9 @@ export const Product = ({ item }) => {
                 <Row>
                     <Col>
                         <Button onClick={() => addProductToCart(item)} variant="warning">Agregar al carrito</Button>
+                    </Col>
+                    <Col>
+                        <Link className="btn btn-secondary" to={"/product/"+id} >Detalles</Link>
                     </Col>
                     <Col>
                         <Button onClick={()=>{}} variant="primary">

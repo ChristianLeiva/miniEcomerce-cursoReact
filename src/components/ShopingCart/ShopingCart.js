@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from "react";
 import { useLiveQuery } from "dexie-react-hooks";
-import { Row, Col, NavDropdown, Navbar, Nav, Container } from 'react-bootstrap';
+import { Row, Col, NavDropdown, Navbar, Nav, Container, a } from 'react-bootstrap';
 import db, {getAllProducts} from "../../db/db";
 import { ShoppingCartItem } from "./ShoppingCartItem";
+import { Link } from 'react-router-dom';
 
 
 export const ShopingCart = () => {
@@ -51,7 +52,13 @@ export const ShopingCart = () => {
                 }
                 
                 <NavDropdown.Divider />
-                <NavDropdown.Item> Total Price: ${parseFloat(''+totalPrice.toFixed(2))} </NavDropdown.Item>
+                <NavDropdown.Item>  
+                    <span>Total Price: ${parseFloat(''+totalPrice.toFixed(2))}</span>
+                    
+                </NavDropdown.Item>
+                <NavDropdown.Item href="/shoppingCart">
+                    Go to Details
+                </NavDropdown.Item>
                 
 
             </NavDropdown>

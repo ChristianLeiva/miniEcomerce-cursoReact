@@ -12,4 +12,9 @@ export const getAllProducts = async () => {
     return allProductFromDB;
 }
 
+export const getProductById = async (id) => {
+    const productFromDB = await db.cart.get(Number(id))
+    return productFromDB;
+}
+
 export default db;
