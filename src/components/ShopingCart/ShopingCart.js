@@ -1,22 +1,22 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useLiveQuery } from "dexie-react-hooks";
 import { Row, Col, NavDropdown, Navbar, Nav, Container, a } from 'react-bootstrap';
-import db, {getAllProducts} from "../../db/db";
+import db, { getAllProducts } from "../../db/db";
 import { ShoppingCartItem } from "./ShoppingCartItem";
 import { Link } from 'react-router-dom';
 
 
 export const ShopingCart = () => {
 
-    const [productsList, setProductsList ] = useState([]);
+    const [productsList, setProductsList] = useState([]);
     const [totalPrice, setTotalPrice] = useState(0);
 
 
 
-    const calculateTotalPrice =()=>{
-        const total = productsList?.reduce((totalPrice, product)=>{
+    const calculateTotalPrice = () => {
+        const total = productsList?.reduce((totalPrice, product) => {
             return totalPrice + parseFloat(product.price);
-        },0)
+        }, 0)
 
         setTotalPrice(total)
     }
@@ -25,10 +25,10 @@ export const ShopingCart = () => {
     useLiveQuery(async () => {
         const productsDB = await db.cart.toArray()
         setProductsList(productsDB)
-      },[])
+    }, [])
 
     useEffect(() => {
-        if(productsList.length > 0){
+        if (productsList.length > 0) {
             calculateTotalPrice();
         }
 
@@ -45,21 +45,20 @@ export const ShopingCart = () => {
         <>
             <NavDropdown title={icono} id="collasible-nav-dropdown">
 
-                {   
-                    productsList.map((product, i)=>(
-                       <ShoppingCartItem key={i} product={product}/>
+                {
+                    productsList.map((product, i) => (
+                        <ShoppingCartItem key={i} product={product} />
                     ))
                 }
-                
+
                 <NavDropdown.Divider />
-                <NavDropdown.Item>  
-                    <span>Total Price: ${parseFloat(''+totalPrice.toFixed(2))}</span>
-                    
+                <NavDropdown.Item>
+                    <span >Total Price: ${parseFloat('' + totalPrice.toFixed(2))}</span>
                 </NavDropdown.Item>
                 <NavDropdown.Item href="/shoppingCart">
                     Go to Details
                 </NavDropdown.Item>
-                
+
 
             </NavDropdown>
         </>
